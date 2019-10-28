@@ -1,0 +1,16 @@
+{
+  "name": "cc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "xml-js": "^1.6.11",
+    "xml2js": "^0.4.22"
+  }
+}
