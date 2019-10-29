@@ -16,15 +16,33 @@ parseString(xml, function(err, result) {
         }
       }
     });
+    
+    let nOfParents =  "generalization" in x == true ? x["generalization"].length : 0;
+    let noa = 0;
+    if(nOfParents > 0){
+      if(x["ownedAttribute"] != null){
+        x["ownedAttribute"].forEach(y => {
+          if(y["$"].isDerived === "false"){
+            noa++;
+          }
+        });
+      }
+      if(x["ownedOperation"] != null){
+        x["ownedOparation"].forEach(y => {
+          if(y["$"].isDerived === "false"){
+            noa++;
+          }
+        });
+      }
+    }
 
     model[x["$"].name] = {
-      ownedAttributes:
-        "ownedAttribute" in x == true ? x["ownedAttribute"].length : 0,
+      ownedAttributes:"ownedAttribute" in x == true ? x["ownedAttribute"].length : 0,
       ownedMembers: "ownedMember" in x == true ? x["ownedMember"].length : 0,
-      ownedOperations:
-        "ownedOperation" in x == true ? x["ownedOperation"].length : 0,
-      parents: "generalization" in x == true ? x["generalization"].length : 0,
-      children: nOfChildren
+      ownedOperations:"ownedOperation" in x == true ? x["ownedOperation"].length : 0,
+      parents: nOfParents,
+      children: nOfChildren,
+      addBySubclass: noa
     };
   });
 });
@@ -40,7 +58,7 @@ Object.keys(model).forEach(x => {
     CBO: model[x].ownedMembers,
     CS: model[x].ownedAttributes + model[x].ownedOperations,
     NOO: 0,
-    NOA: 0
+    NOA: model[x].addBySubclass,
   });
 });
 
